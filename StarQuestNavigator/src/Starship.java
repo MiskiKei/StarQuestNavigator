@@ -66,82 +66,43 @@ public class Starship {
         turnOnLights();
         exploreRandomEvents();
     }
-    
+   
     public void travel(double distance) {
-        double fcr = 0.01;
-        double fuelNeeded = distance * fcr;
+        double fuelConsumptionRate = 0.01;
+        double fuelNeeded = distance * fuelConsumptionRate;
 
-        if (remFuel >= fuelNeeded)
-            pos += distance;
-        else
+        if (remFuel >= fuelNeeded) {
+            updatePositionAndFuel(distance, fuelNeeded);
+            displayTravelMessage(distance);
+        } else {
             System.out.println("Not enough fuel to travel the specified distance.");
-
-        remFuel -= fuelNeeded;
-        totalDistanceTraveled += distance;
-
-        int d = (int) (distance / 100);
-
-        switch (d) {
-            case 0:
-                System.out.println("Traveled a short distance! Remaining Fuel: " + remFuel + ".");
-                break;
-            case 1:
-                if (d % 2 == 0)
-                System.out.println("Traveled a moderate distance! Remaining Fuel: " + remFuel + ".");
-                else
-                System.out.println("Traveled a long distance! Remaining Fuel: " + remFuel + ".");
-                break;
-            case 2:
-                if (d % 3 == 0)
-                System.out.println("Traveled a considerable distance! Remaining Fuel: " + remFuel + ".");
-                else
-                System.out.println("Traveled a significant distance! Remaining Fuel: " + remFuel + ".");
-                break;
-            default:
-                if (d % 4 == 0)
-                System.out.println("Traveled a substantial distance! Remaining Fuel: " + remFuel + ".");
-                else
-                System.out.println("Traveled an extraordinary distance! Remaining Fuel: " + remFuel + ".");
         }
     }
-
-
-    public double getRemFuel() {
-        return remFuel;
+    
+    private void updatePositionAndFuel(double distance, double fuelNeeded) {
+        pos += distance;
+        remFuel -= fuelNeeded;
+        totalDistanceTraveled += distance;
     }
+    
+	private void displayTravelMessage(double distance) {
+		int distanceFactor = (int) (distance / 100);
 
-    public long getPos() {
-        return pos;
-    }
+		switch (distanceFactor) {
+		case 0:
+			System.out.println("Traveled a short distance! Remaining Fuel: " + remFuel + "."); // 0 - 99.99 units
+			break;
+		case 1:
+			System.out.println("Traveled a moderate distance! Remaining Fuel: " + remFuel + "."); // 100 - 199.99 units
+			break;
+		case 2:
+			System.out.println("Traveled a considerable distance! Remaining Fuel: " + remFuel + "."); // 200 - 299.99 units
+			break;
+		default:
+			System.out.println("Traveled a significant distance! Remaining Fuel: " + remFuel + "."); // 300 units or more
+		}
+	}
 
-    public double getTotalDistanceTraveled() {
-        return totalDistanceTraveled;
-    }
-
-    public void setVelocity(double inputVelocity) {
-        velocity = inputVelocity;
-    }
-
-    public double getVelocity() {
-        return velocity;
-    }
-
-    public void setDestination(double x, double y) {
-        destX = x;
-        destY = y;
-    }
-
-    public double[] getDestination() {
-        return new double[]{destX, destY};
-    }
-
-    public void setAutoPilot(boolean enableAutoPilot) {
-        autoPilot = enableAutoPilot;
-    }
-
-    public boolean isAutoPilot() {
-        return autoPilot;
-    }
 
     public void refuel(double fuelAmount) {
         if (remFuel + fuelAmount <= maxFuelCapacity) {
@@ -168,41 +129,25 @@ public class Starship {
         return Math.round(eta * 100.0) / 100.0;
     }
 
-    public String getMaterial() {
-        return material;
-    }
+	public void autoRegulateTemperature() {
+		int criticalHighTemperature = 500;
+		int criticalLowTemperature = -100;
 
-    public void setMaterial(String material) {
-        this.material = material;
-    }
+		if (getRegulateTemperature() >= criticalHighTemperature) {
+			System.out.println("Temperature is too high. Initiating automatic temperature regulation.");
+			setRegulateTemperature(getRegulateTemperature() - 450);
+			System.out.println("New Temperature: " + getRegulateTemperature() + " degrees");
+			activateShields();
+		} else if (getRegulateTemperature() <= criticalLowTemperature) {
+			System.out.println("Temperature is too low. Initiating automatic temperature regulation.");
+			setRegulateTemperature(getRegulateTemperature() + 210);
+			System.out.println("New Temperature: " + getRegulateTemperature() + " degrees");
+			activateShields();
+		} else {
+			System.out.println("Temperature is within safe limits. No action needed.");
+		}
+	}
 
-    public int getYears() {
-        return years;
-    }
-
-    public void setYears(int years) {
-        this.years = years;
-    }
-    
-    public void autoRegulateTemperature() {
-        int criticalHighTemperature = 500;
-        int criticalLowTemperature = -100;
-
-        if (getRegulateTemperature() >= criticalHighTemperature) {
-            System.out.println("Temperature is too high. Initiating automatic temperature regulation.");
-            setRegulateTemperature(getRegulateTemperature() - 450); 
-            System.out.println("New Temperature: " + getRegulateTemperature() + " degrees");
-            activateShields(); 
-        } else if (getRegulateTemperature() <= criticalLowTemperature) {
-            System.out.println("Temperature is too low. Initiating automatic temperature regulation.");
-            setRegulateTemperature(getRegulateTemperature() + 210); 
-            System.out.println("New Temperature: " + getRegulateTemperature() + " degrees");
-            activateShields(); 
-        } else {
-            System.out.println("Temperature is within safe limits. No action needed.");
-        }
-    }
-    
     public void regulateTemperature(int temperature) {
         System.out.println("Current temperature: " + getRegulateTemperature() + " degrees.");
 
@@ -368,6 +313,9 @@ public class Starship {
         System.out.println("Exploring a new area... Nothing unusual found.");
     }
 
+    
+    //SETTERS AND GETTERS 
+    
 	public boolean isShieldsActivated() {
 		return isShieldsActivated;
 	}
@@ -415,5 +363,58 @@ public class Starship {
 	public void setLightsOn(boolean lightsOn) {
 		LightsOn = lightsOn;
 	}
+
+	public double getRemFuel() {
+		return remFuel;
+	}
+
+	public long getPos() {
+		return pos;
+	}
+
+	public double getTotalDistanceTraveled() {
+		return totalDistanceTraveled;
+	}
+
+	public void setVelocity(double inputVelocity) {
+		velocity = inputVelocity;
+	}
+
+	public double getVelocity() {
+		return velocity;
+	}
+
+	public void setDestination(double x, double y) {
+		destX = x;
+		destY = y;
+	}
+
+	public double[] getDestination() {
+		return new double[] { destX, destY };
+	}
+
+	public void setAutoPilot(boolean enableAutoPilot) {
+		autoPilot = enableAutoPilot;
+	}
+
+	public boolean isAutoPilot() {
+		return autoPilot;
+	}
 	
+    public String getMaterial() {
+        return material;
+    }
+
+    public void setMaterial(String material) {
+        this.material = material;
+    }
+
+    public int getYears() {
+        return years;
+    }
+
+    public void setYears(int years) {
+        this.years = years;
+    }
+
 }
