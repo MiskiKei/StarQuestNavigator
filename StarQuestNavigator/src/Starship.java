@@ -12,7 +12,6 @@ public class Starship {
     private double maxFuelCapacity = 10000000;
     private double totalDistanceTraveled = 0;
 
-    private boolean Connected = false;
     private boolean Monitoring = false;
     private boolean LightsOn = false;
     private boolean isShieldsActivated = false;
@@ -20,6 +19,7 @@ public class Starship {
     
     
     private Engine engine;
+    private CommunicationSystem communicationSystem;
 
     private static Random randGen = new Random();
 
@@ -27,6 +27,7 @@ public class Starship {
     	
     	// INITIALIZE SUBSYSTEMS
     	engine = new Engine();
+    	communicationSystem = new CommunicationSystem();
     	
         material = inputMat;
         if (inputYear > 1999 && inputYear < 2900) {
@@ -41,6 +42,10 @@ public class Starship {
 
     public Engine getEngine() {
         return engine;
+    }
+    
+    public CommunicationSystem getCommunicationSystem() {
+    	return communicationSystem;
     }
     
     public void operate() {
@@ -62,10 +67,10 @@ public class Starship {
     }
 
     private void operateCommunication() {
-        communicate();
-        sendCommand("Go to destination");
-        receiveData();
-        disconnect();
+    	communicationSystem.communicate();
+    	communicationSystem.sendCommand("Go to destination");
+    	communicationSystem.receiveData();
+    	communicationSystem.disconnect();
     }
 
     private void operateMonitoring() {
@@ -159,42 +164,6 @@ public class Starship {
 		}
 	}
 
-   
-
-    public void communicate() {
-        if (!Connected) {
-            System.out.println("Communicating with base.");
-            Connected = true;
-        } else {
-            System.out.println("Already connected to base.");
-        }
-    }
-
-    public void disconnect() {
-        if (Connected) {
-            System.out.println("Communication disconnected.");
-            Connected = false;
-        } else {
-            System.out.println("Not currently connected.");
-        }
-    }
-
-    public void sendCommand(String command) {
-        if (Connected) {
-            System.out.println("Sending command: " + command);
-            System.out.println("Command sent successfully.");
-        } else {
-            System.out.println("Error: Not connected. Unable to send command.");
-        }
-    }
-
-    public void receiveData() {
-        if (Connected) {
-            System.out.println("Receiving data from base....Data received successfully.");
-        } else {
-            System.out.println("Error: Not connected. Unable to receive data.");
-        }
-    }
 
     public void monitorLifeSupport() {
         if (!Monitoring) {
@@ -300,13 +269,6 @@ public class Starship {
 		this.temperature = regulateTemperature;
 	}
 
-	public boolean isConnected() {
-		return Connected;
-	}
-
-	public void setConnected(boolean connected) {
-		Connected = connected;
-	}
 
 	public boolean isMonitoring() {
 		return Monitoring;

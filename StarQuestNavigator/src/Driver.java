@@ -67,9 +67,16 @@ public class Driver {
 
 	
 	private static void sendMessage(Scanner scanner, Starship starship) {
-	    System.out.print("Enter your message: ");
-	    String message = scanner.nextLine();
-	    starship.sendCommand(message);
+	    CommunicationSystem communicationSystem = starship.getCommunicationSystem();
+	    if (communicationSystem != null) {
+	        System.out.print("Enter your message: ");
+	        scanner.nextLine(); // Consume newline character
+	        String message = scanner.nextLine(); // Read the message
+	        System.out.println();
+	        communicationSystem.sendCommand(message);
+	    } else {
+	        System.out.println("Error: Communication system not available.");
+	    }
 	}
 
     private static void connectToCommunicationCenter(Scanner scanner, Starship starship) {
@@ -78,10 +85,10 @@ public class Driver {
         boolean connect = connectChoice == 1;
 
         if (connect) {
-            starship.communicate();
+            starship.getCommunicationSystem().communicate();
             System.out.println("Connected to the communication center.");
         } else {
-            starship.disconnect();
+            starship.getCommunicationSystem().disconnect();
             System.out.println("Disconnected from the communication center.");
         }
     }
@@ -155,10 +162,11 @@ public class Driver {
 		System.out.println("Position: " + starship.getPos());
 		System.out.println("Velocity: " + starship.getVelocity());
 		System.out.println("Destination: " + starship.getDestination()[0] + ", " + starship.getDestination()[1]);
+		System.out.println("Current Command: " + starship.getCommunicationSystem().getCommand());
 		System.out.println("AutoPilot: " + starship.isAutoPilot());
 		System.out.println("Total Distance Traveled: " + starship.getTotalDistanceTraveled());
 		System.out.println("Is Engine Running: " + starship.getEngine().isEngineRunning());
-		System.out.println("Is Connected: " + starship.isConnected());
+		System.out.println("Is Connected: " + starship.getCommunicationSystem().isConnected());
 		System.out.println("Is Monitoring: " + starship.isMonitoring());
 		System.out.println("Is Lights On: " + starship.isLightsOn());
 		System.out.println("Is Shields Activated: " + starship.isShieldsActivated());
