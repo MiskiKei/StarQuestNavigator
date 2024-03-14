@@ -1,13 +1,13 @@
 import java.util.Random;
 
 public class Starship {
-    private String material = "Steel";
-    private int years = 1999;
-    private double remFuel = 100;
-    private long pos = 789012893;
-    private double velocity = 0.0;
-    private double destX = 0.0;
-    private double destY = 0.0;
+    private String material;
+    private int years;
+    private double remFuel;
+    private long pos;
+    private double velocity = 2500.00;
+    private double destX = 1254654.0;
+    private double destY = 6558454.0;
     private boolean autoPilot = false;
     private double maxFuelCapacity = 10000000;
     private double totalDistanceTraveled = 0;
@@ -147,25 +147,6 @@ public class Starship {
 			System.out.println("Temperature is within safe limits. No action needed.");
 		}
 	}
-
-    public void regulateTemperature(int temperature) {
-        System.out.println("Current temperature: " + getRegulateTemperature() + " degrees.");
-
-        if (temperature > getRegulateTemperature()) {
-            System.out.println("Warning: Increase temperature.");
-           
-        } else if (temperature < getRegulateTemperature()) {
-            System.out.println("Warning: Decrease temperature.");
-        } else {
-            System.out.println("Temperature is already at the desired level.");
-        }
-
-        setRegulateTemperature(temperature);
-        
-        System.out.println("Temperature manually changed to: " + temperature);
-    }
-    
-
 
     public void startEngine() {
         if (!EngineRunning) {

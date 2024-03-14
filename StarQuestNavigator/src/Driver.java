@@ -5,7 +5,7 @@ public class Driver {
 		Scanner scanner = new Scanner(System.in);
 
 		// Creating a Starship with default values
-		Starship myStarship = new Starship("Steel", 2022, 100, 789012893);
+		Starship myStarship = new Starship("Steel", 2022, 1000, 789012893);
 
 	       while (true) {
 	            System.out.println("\n==== Starship Game ====");
@@ -119,6 +119,7 @@ public class Driver {
 	}
 
 	private static void refuelStarship(Scanner scanner, Starship starship) {
+		System.out.println("Current Remaining Fuel: " + starship.getRemFuel() + "/10000000");
 		System.out.print("Enter the amount of fuel to refuel: ");
 		double fuelAmount = scanner.nextDouble();
 		starship.refuel(fuelAmount);
@@ -150,7 +151,7 @@ public class Driver {
 		System.out.println("\n==== Starship Status ====");
 		System.out.println("Material: " + starship.getMaterial());
 		System.out.println("Years: " + starship.getYears());
-		System.out.println("Remaining Fuel: " + starship.getRemFuel());
+		System.out.println("Remaining Fuel: " + starship.getRemFuel() + " out of 10000000");
 		System.out.println("Position: " + starship.getPos());
 		System.out.println("Velocity: " + starship.getVelocity());
 		System.out.println("Destination: " + starship.getDestination()[0] + ", " + starship.getDestination()[1]);
