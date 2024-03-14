@@ -1,10 +1,10 @@
 import java.util.Random;
 
 public class Starship {
-    private String material;
-    private int years;
-    private double remFuel;
-    private long pos;
+    private String material = "Steel";
+    private int years = 2300;
+    private double remFuel = 250;
+    private long pos = 939017861;
     private double velocity = 2500.00;
     private double destX = 1254654.0;
     private double destY = 6558454.0;
@@ -19,7 +19,8 @@ public class Starship {
 
     private static Random randGen = new Random();
 
-    public Starship(String inputMat, int inputYear, double inputRemFuel, long inputPos) {
+    //Constructor
+    public Starship(String material, int years, double remFuel, long pos) {
     	
     	// INITIALIZE SUBSYSTEMS
     	engine = new Engine();
@@ -27,15 +28,15 @@ public class Starship {
     	supportSystem = new SupportSystem();
     	eventSystem = new EventSystem(supportSystem);
     	
-        material = inputMat;
-        if (inputYear > 1999 && inputYear < 2900) {
-            years = inputYear;
-        } else {
-            years = 1999;
-        }
-        remFuel = inputRemFuel;
-        pos = inputPos;
-        
+    	this.material = material;
+    	this.years = years;
+    	this.remFuel = remFuel;
+    	this.pos = pos;
+    }
+    
+    public Starship() {
+    	//Generic Constructor
+    	
     }
 
     public Engine getEngine() {
@@ -50,6 +51,11 @@ public class Starship {
     	return supportSystem;
     }
     
+    public EventSystem getEventSystem() {
+    	return eventSystem;
+    }
+    
+    //Operation Functions
     public void operate() {
         operateEngine();
         System.out.println();
@@ -85,6 +91,7 @@ public class Starship {
     	eventSystem.exploreRandomEvents();
     }
    
+    //Travel Logic Based Off of Fuel
     public void travel(double distance) {
         double fuelConsumptionRate = 0.01;
         double fuelNeeded = distance * fuelConsumptionRate;
@@ -147,21 +154,31 @@ public class Starship {
         return Math.round(eta * 100.0) / 100.0;
     }
 	
-
-
     
     //SETTERS AND GETTERS 
 
 	public double getRemFuel() {
 		return remFuel;
 	}
+	
+	public void setRemFuel(double remFuel) {
+		this.remFuel = remFuel;
+	}
 
 	public long getPos() {
 		return pos;
 	}
 
+	public void setPos(long pos) {
+		this.pos = pos;
+	}
+
 	public double getTotalDistanceTraveled() {
 		return totalDistanceTraveled;
+	}
+
+	public void setTotalDistanceTraveled(double totalDistanceTraveled) {
+		this.totalDistanceTraveled = totalDistanceTraveled;
 	}
 
 	public void setVelocity(double inputVelocity) {
@@ -204,5 +221,5 @@ public class Starship {
     public void setYears(int years) {
         this.years = years;
     }
-
+    
 }
