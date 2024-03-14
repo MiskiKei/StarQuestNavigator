@@ -11,13 +11,11 @@ public class Starship {
     private boolean autoPilot = false;
     private double maxFuelCapacity = 10000000;
     private double totalDistanceTraveled = 0;
-
- 
-    
     
     private Engine engine;
     private CommunicationSystem communicationSystem;
     private SupportSystem supportSystem;
+    private EventSystem eventSystem;
 
     private static Random randGen = new Random();
 
@@ -27,6 +25,7 @@ public class Starship {
     	engine = new Engine();
     	communicationSystem = new CommunicationSystem();
     	supportSystem = new SupportSystem();
+    	eventSystem = new EventSystem(supportSystem);
     	
         material = inputMat;
         if (inputYear > 1999 && inputYear < 2900) {
@@ -83,7 +82,7 @@ public class Starship {
     }
 
     private void operateEvents() {
-        exploreRandomEvents();
+    	eventSystem.exploreRandomEvents();
     }
    
     public void travel(double distance) {
@@ -149,32 +148,6 @@ public class Starship {
     }
 	
 
-
-
-   
-    private void exploreIcePlanetEvent() {
-    	supportSystem.setRegulateTemperature(-150);
-        System.out.println("Exploring a new area... Brrr! Encountered an ice planet!");
-        supportSystem.autoRegulateTemperature(); 
-    }
-
-    private void handleLavaPlanetEvent() {
-    	supportSystem.setRegulateTemperature(500);
-        System.out.println("Exploring a new area... Oh no! Encountered a lava planet!");
-        supportSystem.autoRegulateTemperature(); 
-    }
-
-    private void exploreRandomEvents() {
-        int randomValue = randGen.nextInt(100) + 1; 
-
-        if (randomValue <= 45) {
-            handleLavaPlanetEvent();
-        } else if (randomValue <= 75) {
-            exploreIcePlanetEvent();
-        } else {
-        	 System.out.println("Exploring a new area... Nothing unusual found.");
-        }
-    }
 
     
     //SETTERS AND GETTERS 
