@@ -14,7 +14,7 @@ public class Driver {
 	            System.out.println("3. Change Velocity");
 	            System.out.println("4. Set Destination");
 	            System.out.println("5. Toggle AutoPilot");
-	            System.out.println("6. Connect/Disconnect Lights");
+	            System.out.println("6. Turn On/Turn Off Lights");
 	            System.out.println("7. Connect/Disconnect Shields");
 	            System.out.println("8. Display Starship Status");
 	            System.out.println("9. Connect/Disconnect from Communication Center");
@@ -99,9 +99,9 @@ public class Driver {
         boolean turnOn = lightsChoice == 1;
 
         if (turnOn) {
-            starship.turnOnLights();
+            starship.getSupportSystem().turnOnLights();
         } else {
-            starship.turnOffLights();
+            starship.getSupportSystem().turnOffLights();
         }
     }
     
@@ -111,9 +111,9 @@ public class Driver {
         boolean activate = shieldsChoice == 1;
 
         if (activate) {
-            starship.activateShields();
+            starship.getSupportSystem().activateShields();
         } else {
-            starship.deactivateShields();
+            starship.getSupportSystem().deactivateShields();
         }
     }
 
@@ -167,9 +167,9 @@ public class Driver {
 		System.out.println("Total Distance Traveled: " + starship.getTotalDistanceTraveled());
 		System.out.println("Is Engine Running: " + starship.getEngine().isEngineRunning());
 		System.out.println("Is Connected: " + starship.getCommunicationSystem().isConnected());
-		System.out.println("Is Monitoring: " + starship.isMonitoring());
-		System.out.println("Is Lights On: " + starship.isLightsOn());
-		System.out.println("Is Shields Activated: " + starship.isShieldsActivated());
-		System.out.println("Regulated Temperature: " + starship.getRegulateTemperature());
+		System.out.println("Is Monitoring: " + starship.getSupportSystem().isMonitoring());
+		System.out.println("Is Lights On: " + starship.getSupportSystem().isLightsOn());
+		System.out.println("Is Shields Activated: " + starship.getSupportSystem().isShieldsActivated());
+		System.out.println("Regulated Temperature: " + starship.getSupportSystem().getRegulateTemperature());
 	}
 }

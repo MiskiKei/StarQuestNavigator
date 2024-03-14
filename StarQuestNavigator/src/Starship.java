@@ -12,14 +12,12 @@ public class Starship {
     private double maxFuelCapacity = 10000000;
     private double totalDistanceTraveled = 0;
 
-    private boolean Monitoring = false;
-    private boolean LightsOn = false;
-    private boolean isShieldsActivated = false;
-    private int temperature = 50; 
+ 
     
     
     private Engine engine;
     private CommunicationSystem communicationSystem;
+    private SupportSystem supportSystem;
 
     private static Random randGen = new Random();
 
@@ -28,6 +26,7 @@ public class Starship {
     	// INITIALIZE SUBSYSTEMS
     	engine = new Engine();
     	communicationSystem = new CommunicationSystem();
+    	supportSystem = new SupportSystem();
     	
         material = inputMat;
         if (inputYear > 1999 && inputYear < 2900) {
@@ -48,6 +47,10 @@ public class Starship {
     	return communicationSystem;
     }
     
+    public SupportSystem getSupportSystem() {
+    	return supportSystem;
+    }
+    
     public void operate() {
         operateEngine();
         System.out.println();
@@ -55,7 +58,7 @@ public class Starship {
         System.out.println();
         operateMonitoring();
         System.out.println();
-        operateControls();
+        operateEvents();
         System.out.println();
         double randomDistance = randGen.nextDouble() * 1000; 
         travel(randomDistance);
@@ -74,12 +77,12 @@ public class Starship {
     }
 
     private void operateMonitoring() {
-        monitorLifeSupport();
-        adjustOxygenLevel(80);
+    	supportSystem.monitorLifeSupport();
+    	supportSystem.adjustOxygenLevel(80);
+    	supportSystem.turnOnLights();
     }
 
-    private void operateControls() {
-        turnOnLights();
+    private void operateEvents() {
         exploreRandomEvents();
     }
    
@@ -144,94 +147,21 @@ public class Starship {
 
         return Math.round(eta * 100.0) / 100.0;
     }
-
-	public void autoRegulateTemperature() {
-		int criticalHighTemperature = 500;
-		int criticalLowTemperature = -100;
-
-		if (getRegulateTemperature() >= criticalHighTemperature) {
-			System.out.println("Temperature is too high. Initiating automatic temperature regulation.");
-			setRegulateTemperature(getRegulateTemperature() - 450);
-			System.out.println("New Temperature: " + getRegulateTemperature() + " degrees");
-			activateShields();
-		} else if (getRegulateTemperature() <= criticalLowTemperature) {
-			System.out.println("Temperature is too low. Initiating automatic temperature regulation.");
-			setRegulateTemperature(getRegulateTemperature() + 210);
-			System.out.println("New Temperature: " + getRegulateTemperature() + " degrees");
-			activateShields();
-		} else {
-			System.out.println("Temperature is within safe limits. No action needed.");
-		}
-	}
+	
 
 
-    public void monitorLifeSupport() {
-        if (!Monitoring) {
-            System.out.println("Life support systems monitored.");
-            Monitoring = true;
-        } else {
-            System.out.println("Life support systems are already being monitored.");
-        }
-    }
 
-    public void stopMonitoringLifeSupport() {
-        if (Monitoring) {
-            System.out.println("Stopping life support system monitoring.");
-            Monitoring = false;
-        } else {
-            System.out.println("Life support systems are not currently being monitored.");
-        }
-    }
-
-    public void adjustOxygenLevel(int percentage) {
-        System.out.println("Adjusting oxygen level to " + percentage + "%.");
-    }
-
-    public void activateShields() {
-        if (!isShieldsActivated()) {
-            System.out.println("Shields activated.");
-            setShieldsActivated(true);
-        } else {
-            System.out.println("Shields are already activated.");
-        }
-    }
-
-    public void deactivateShields() {
-        if (isShieldsActivated()) {
-            System.out.println("Shields deactivated.");
-            setShieldsActivated(false);
-        } else {
-            System.out.println("Shields are already deactivated.");
-        }
-    }
-
-    public void turnOnLights() {
-        if (!LightsOn) {
-            System.out.println("Lights turned on.");
-            LightsOn = true;
-        } else {
-            System.out.println("Lights are already on.");
-        }
-    }
-
-    public void turnOffLights() {
-        if (LightsOn) {
-            System.out.println("Lights turned off.");
-            LightsOn = false;
-        } else {
-            System.out.println("Lights are already off.");
-        }
-    }
+   
     private void exploreIcePlanetEvent() {
-    	setRegulateTemperature(-150);
+    	supportSystem.setRegulateTemperature(-150);
         System.out.println("Exploring a new area... Brrr! Encountered an ice planet!");
-        autoRegulateTemperature(); 
+        supportSystem.autoRegulateTemperature(); 
     }
 
     private void handleLavaPlanetEvent() {
-    	setRegulateTemperature(500);
+    	supportSystem.setRegulateTemperature(500);
         System.out.println("Exploring a new area... Oh no! Encountered a lava planet!");
-        autoRegulateTemperature(); 
+        supportSystem.autoRegulateTemperature(); 
     }
 
     private void exploreRandomEvents() {
@@ -242,49 +172,12 @@ public class Starship {
         } else if (randomValue <= 75) {
             exploreIcePlanetEvent();
         } else {
-            handleNormalExploration();
+        	 System.out.println("Exploring a new area... Nothing unusual found.");
         }
-    }
-
-    private void handleNormalExploration() {
-        System.out.println("Exploring a new area... Nothing unusual found.");
     }
 
     
     //SETTERS AND GETTERS 
-    
-	public boolean isShieldsActivated() {
-		return isShieldsActivated;
-	}
-
-	public void setShieldsActivated(boolean isShieldsActivated) {
-		this.isShieldsActivated = isShieldsActivated;
-	}
-
-	public int getRegulateTemperature() {
-		return temperature;
-	}
-
-	public void setRegulateTemperature(int regulateTemperature) {
-		this.temperature = regulateTemperature;
-	}
-
-
-	public boolean isMonitoring() {
-		return Monitoring;
-	}
-
-	public void setMonitoring(boolean monitoring) {
-		Monitoring = monitoring;
-	}
-
-	public boolean isLightsOn() {
-		return LightsOn;
-	}
-
-	public void setLightsOn(boolean lightsOn) {
-		LightsOn = lightsOn;
-	}
 
 	public double getRemFuel() {
 		return remFuel;
