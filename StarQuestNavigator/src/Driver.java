@@ -157,7 +157,7 @@ public class Driver {
 		System.out.println("Destination: " + starship.getDestination()[0] + ", " + starship.getDestination()[1]);
 		System.out.println("AutoPilot: " + starship.isAutoPilot());
 		System.out.println("Total Distance Traveled: " + starship.getTotalDistanceTraveled());
-		System.out.println("Is Engine Running: " + starship.isEngineRunning());
+		System.out.println("Is Engine Running: " + starship.getEngine().isEngineRunning());
 		System.out.println("Is Connected: " + starship.isConnected());
 		System.out.println("Is Monitoring: " + starship.isMonitoring());
 		System.out.println("Is Lights On: " + starship.isLightsOn());

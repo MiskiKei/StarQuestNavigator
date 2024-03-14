@@ -12,16 +12,22 @@ public class Starship {
     private double maxFuelCapacity = 10000000;
     private double totalDistanceTraveled = 0;
 
-    private boolean EngineRunning = false;
     private boolean Connected = false;
     private boolean Monitoring = false;
     private boolean LightsOn = false;
     private boolean isShieldsActivated = false;
     private int temperature = 50; 
+    
+    
+    private Engine engine;
 
     private static Random randGen = new Random();
 
     public Starship(String inputMat, int inputYear, double inputRemFuel, long inputPos) {
+    	
+    	// INITIALIZE SUBSYSTEMS
+    	engine = new Engine();
+    	
         material = inputMat;
         if (inputYear > 1999 && inputYear < 2900) {
             years = inputYear;
@@ -30,8 +36,13 @@ public class Starship {
         }
         remFuel = inputRemFuel;
         pos = inputPos;
+        
     }
 
+    public Engine getEngine() {
+        return engine;
+    }
+    
     public void operate() {
         operateEngine();
         System.out.println();
@@ -46,8 +57,8 @@ public class Starship {
     }
 
     private void operateEngine() {
-        startEngine();
-        increaseThrottle();
+    	engine.startEngine();
+    	engine.increaseThrottle();
     }
 
     private void operateCommunication() {
@@ -148,31 +159,7 @@ public class Starship {
 		}
 	}
 
-    public void startEngine() {
-        if (!EngineRunning) {
-            System.out.println("Engine started.");
-            EngineRunning = true;
-        } else {
-            System.out.println("Engine is already running.");
-        }
-    }
-
-    public void stopEngine() {
-        if (EngineRunning) {
-            System.out.println("Engine stopped.");
-            EngineRunning = false;
-        } else {
-            System.out.println("Engine is already stopped.");
-        }
-    }
-
-    public void increaseThrottle() {
-        System.out.println("Throttle increased.");
-    }
-
-    public void decreaseThrottle() {
-        System.out.println("Throttle decreased.");
-    }
+   
 
     public void communicate() {
         if (!Connected) {
@@ -311,14 +298,6 @@ public class Starship {
 
 	public void setRegulateTemperature(int regulateTemperature) {
 		this.temperature = regulateTemperature;
-	}
-
-	public boolean isEngineRunning() {
-		return EngineRunning;
-	}
-
-	public void setEngineRunning(boolean engineRunning) {
-		EngineRunning = engineRunning;
 	}
 
 	public boolean isConnected() {
